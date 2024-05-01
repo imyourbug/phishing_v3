@@ -11,6 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UrlPrevious
 {
+    protected $is_accepted = [
+        'domain1',
+        'domain2',
+    ];
     /**
      * Handle an incoming request.
      *
@@ -20,8 +24,8 @@ class UrlPrevious
     {
         $urlPrevious = url()->previous();
 
-        $count = Domain::where('domain', 'like', "%$urlPrevious%")->get()->count();
-        if (!$count) {
+        // $count = Domain::where('domain', 'like', "%$urlPrevious%")->get()->count();
+        if (!in_array($urlPrevious, $this->is_accepted)) {
             return redirect()->route('404');
         }
         // set cookie
