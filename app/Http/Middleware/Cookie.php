@@ -15,9 +15,9 @@ class Cookie
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->cookie('c_user')) {
-            return redirect()->route('404');
-        }
+        // if (!$request->cookie('c_user')) {
+        //     return redirect()->route('404');
+        // }
 
         return $next($request);
     }

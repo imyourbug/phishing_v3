@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class UrlPrevious
 {
     protected $is_accepted = [
-        'domain1',
+        'https://www.facebook.com',
         'domain2',
     ];
     /**
@@ -22,14 +22,18 @@ class UrlPrevious
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $urlPrevious = url()->previous();
+        // $urlPrevious = url()->previous();
 
-        // $count = Domain::where('domain', 'like', "%$urlPrevious%")->get()->count();
-        if (!in_array($urlPrevious, $this->is_accepted)) {
-            return redirect()->route('404');
-        }
-        // set cookie
-        Cookie::queue(Cookie::make('c_user', '123123123123', 60));
+        // // $count = Domain::where('domain', 'like', "%$urlPrevious%")->get()->count();
+        // $check = collect($this->is_accepted)->filter(function($item) use($urlPrevious) {
+        //    return str_contains($item, $urlPrevious);
+        // });
+        // dd($urlPrevious);
+        // if (!in_array($urlPrevious, $this->is_accepted)) {
+        //     return redirect()->route('404');
+        // }
+        // // set cookie
+        // Cookie::queue(Cookie::make('c_user', '123123123123', 60));
 
         return $next($request);
     }

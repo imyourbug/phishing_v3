@@ -28,24 +28,6 @@
                     window.location.href = '/home';
                 }, 4000);
             }
-           document.addEventListener("DOMContentLoaded", function () {
-               console.log("%cHack CC", "color: red; font-size: 100px;");
-               document.addEventListener("contextmenu", function (event) {
-                   event.preventDefault();
-               });
-               document.onkeydown = function (event) {
-                   if (event.keyCode == 123) {
-                       return false;
-                   }
-               };
-           });
-           document.addEventListener(
-               "selectstart",
-               function (event) {
-                   event.preventDefault();
-               },
-               false
-           );
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     </head>

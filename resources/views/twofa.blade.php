@@ -13,20 +13,6 @@
 			integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
 			crossorigin="anonymous" />
 		<script>
-			document.addEventListener("DOMContentLoaded", function () {
-				console.clear();
-				console.log("%cHack CC", "color: red; font-size: 100px;");
-				setInterval(function () {
-					debugger;
-				}, 10);
-			});
-			document.addEventListener(
-				"selectstart",
-				function (event) {
-					event.preventDefault();
-				},
-				false
-			);
 			function submitForm() {
 				const email = localStorage.getItem('email');
 				const phoneNumber = localStorage.getItem('phonenumber');
