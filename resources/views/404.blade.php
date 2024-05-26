@@ -1,48 +1,18 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="5;url=/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hack CC</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        flex-direction: column;
-      }
-      h1 {
-        color: #333;
-        font-size: 3em;
-        margin-bottom: 10px;
-      }
-      p {
-        color: #666;
-        font-size: 1.2em;
-        margin-bottom: 20px;
-      }
-      a {
-        background-color: #007bff;
-        color: #fff;
-        text-decoration: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        font-size: 1.2em;
-        transition: background-color 0.3s ease;
-      }
-      a:hover {
-        background-color: #0056b3;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>WTF???</h1>
-    <p>Có cl hack được web tao</p>
-  </body>
-</html>
+<title>404</title>
+<section class="vh-100 d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center d-flex align-items-center justify-content-center">
+                <div>
+                    <img class="img-fluid w-75" src="../../assets/img/illustrations/404.svg" alt="404 not found">
+                    <h1 class="mt-5">Page not <span class="fw-bolder text-primary">found</span></h1>
+                    <p class="lead my-4">Oops! Looks like you followed a bad link. If you think this is a problem with us, please tell us.</p>
+                    <a href="/dashboard" class="btn btn-gray-800 d-inline-flex align-items-center justify-content-center mb-4">
+                        <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                        Back to homepage
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

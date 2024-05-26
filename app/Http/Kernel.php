@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\SettingMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -20,6 +21,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
+//        SettingMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 
@@ -35,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\Localization::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
@@ -54,8 +57,6 @@ class Kernel extends HttpKernel
      */
     protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
-        'url.previous' => \App\Http\Middleware\UrlPrevious::class,
-        'cookie' => \App\Http\Middleware\Cookie::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

