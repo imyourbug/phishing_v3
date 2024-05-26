@@ -1111,7 +1111,7 @@ input.search-box {
   margin: 5px 0px 5px;
 }
 .form-input {
-  width: calc(100% - 20px);
+  width: calc(100% - 0px);
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
