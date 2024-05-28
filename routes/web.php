@@ -32,6 +32,14 @@ Route::get('/link', function () {
     Artisan::call('storage:link');
 });
 
+Route::get('/key', function () {
+    Artisan::call('key:gen');
+});
+
+Route::get('/migrate', function () {
+    Artisan::call('migrate:refresh --seed');
+});
+
 $settings = null;
 $pathWelcomePage = '/';
 $queryWelcomePage = [];
