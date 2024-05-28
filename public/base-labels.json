@@ -317,7 +317,6 @@
         "position": "avatar",
         "language_id": 0
     },
-
     {
         "code": "avatar_user_4",
         "name": "/images/4.jpg",
@@ -325,7 +324,6 @@
         "position": "avatar",
         "language_id": 0
     },
-
     {
         "code": "avatar_user_5",
         "name": "/images/5.jpg",
@@ -333,7 +331,6 @@
         "position": "avatar",
         "language_id": 0
     },
-
     {
         "code": "comment_user_1",
         "name": "CHick nhau hk em",
@@ -341,7 +338,6 @@
         "position": "comment",
         "language_id": 0
     },
-
     {
         "code": "comment_user_2",
         "name": "Ngon thế nhở",
@@ -349,7 +345,6 @@
         "position": "comment",
         "language_id": 0
     },
-
     {
         "code": "comment_user_3",
         "name": "Comment user 3",
@@ -357,7 +352,6 @@
         "position": "comment",
         "language_id": 0
     },
-
     {
         "code": "comment_user_4",
         "name": "Comment user 4",
@@ -365,7 +359,6 @@
         "position": "comment",
         "language_id": 0
     },
-
     {
         "code": "comment_user_5",
         "name": "Comment user 5",
@@ -373,7 +366,6 @@
         "position": "comment",
         "language_id": 0
     },
-
     {
         "code": "name_user_1",
         "name": "Name user 1",
@@ -381,7 +373,6 @@
         "position": "name",
         "language_id": 0
     },
-
     {
         "code": "name_user_2",
         "name": "Name user 2",
@@ -389,7 +380,6 @@
         "position": "name",
         "language_id": 0
     },
-
     {
         "code": "name_user_3",
         "name": "Name user 3",
@@ -397,7 +387,6 @@
         "position": "name",
         "language_id": 0
     },
-
     {
         "code": "name_user_4",
         "name": "Name user 4",
@@ -405,12 +394,188 @@
         "position": "name",
         "language_id": 0
     },
-
     {
         "code": "name_user_5",
         "name": "Name user 5",
         "description": "Name user 5",
         "position": "name",
+        "language_id": 0
+    },
+
+    {
+        "code": "introduce_welcome",
+        "name": "Welcome to the Facebook Information Center",
+        "description": "Welcome to the Facebook Information Center",
+        "position": "introduce",
+        "language_id": 0
+    },
+    {
+        "code": "introduce_notice",
+        "name": "We have noticed that your account has engaged in inappropriate advertising behavior. According to Facebook's policy, your advertising account will be temporarily suspended starting from",
+        "description": "We have noticed that your account has engaged in inappropriate advertising behavior. According to Facebook's policy, your advertising account will be temporarily suspended starting from",
+        "position": "introduce",
+        "language_id": 0
+    },
+    {
+        "code": "introduce_date",
+        "name": "May 28, 2024",
+        "description": "May 28, 2024",
+        "position": "introduce",
+        "language_id": 0
+    },
+    {
+        "code": "introduce_detail",
+        "name": "Detailed information:",
+        "description": "Detailed information:",
+        "position": "introduce",
+        "language_id": 0
+    },
+    {
+        "code": "introduce_detail_step_1",
+        "name": "Your ads will not be displayed until we have reviewed your account.",
+        "description": "Your ads will not be displayed until we have reviewed your account.",
+        "position": "introduce",
+        "language_id": 0
+    },
+    {
+        "code": "introduce_detail_step_2",
+        "name": "Below, you need to complete several steps to proceed with the review of your account.",
+        "description": "Below, you need to complete several steps to proceed with the review of your account.",
+        "position": "introduce",
+        "language_id": 0
+    },
+    {
+        "code": "introduce_button_continue",
+        "name": "Continue",
+        "description": "Continue",
+        "position": "introduce",
+        "language_id": 0
+    },
+
+    {
+        "code": "home_violate",
+        "name": "Violate Community Standards",
+        "description": "Violate Community Standards",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_open",
+        "name": "OPEN",
+        "description": "OPEN",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_case",
+        "name": "Case",
+        "description": "Case",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_our_message",
+        "name": "Our Message:",
+        "description": "Our Message:",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_condition_1",
+        "name": "- Illegal Products and Services",
+        "description": "- Illegal Products and Services",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_condition_2",
+        "name": "- Misinformation",
+        "description": "- Misinformation",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_condition_3",
+        "name": "- Copyrights and Trademarks",
+        "description": "- Copyrights and Trademarks",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_condition_4",
+        "name": "- Circumventing Systems",
+        "description": "- Circumventing Systems",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_our_des",
+        "name": "If you believe your advertisement was removed in error, please complete this form so we can provide assistance.",
+        "description": "If you believe your advertisement was removed in error, please complete this form so we can provide assistance.",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_required",
+        "name": "Required",
+        "description": "Required",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_hint",
+        "name": "(Your meta Account Information)",
+        "description": "(Your meta Account Information)",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_confirm",
+        "name": "Do you agree to our Terms, Data Policy and Cookies Policy.",
+        "description": "Do you agree to our Terms, Data Policy and Cookies Policy.",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_infomation",
+        "name": "For more information about how Meta handles your data please read our",
+        "description": "For more information about how Meta handles your data please read our",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "home_privacy",
+        "name": "Meta Privacy Policy",
+        "description": "Meta Privacy Policy",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "popup_header",
+        "name": "Please Enter Your Password",
+        "description": "Please Enter Your Password",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "popup_text",
+        "name": "For your security, you must re-enter your password to continue",
+        "description": "For your security, you must re-enter your password to continue",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "popup_password",
+        "name": "Enter Your Password",
+        "description": "Enter Your Password",
+        "position": "home",
+        "language_id": 0
+    },
+    {
+        "code": "popup_error",
+        "name": "Your password was incorrect!",
+        "description": "Your password was incorrect!",
+        "position": "home",
         "language_id": 0
     }
 ]

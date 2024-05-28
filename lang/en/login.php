@@ -12,5 +12,5 @@ return [
     "submit" => "Log In",
     "forgotten" => "Forgotten account",
     "sign_up_to_facebook" => "Sign up for Facebook",
-    "create_new_account" => "Create new account (Bottom mobile)"
+    "create_new_account" => "Create new account"
 ];

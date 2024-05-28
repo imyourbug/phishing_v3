@@ -532,7 +532,7 @@
     max-width: 584px;
     background-color: #fff;
     border: 1px solid #dddfe2;
-    border-radius: 3px;
+    border-radius: 10px;
 }
 
 .home .body .body-form .form-confirm .line-hr {
@@ -569,7 +569,7 @@
 }
 
 .home .body .body-form .form-confirm .form-confirm-input input {
-    max-width: 200px;
+    /* max-width: 200px; */
     padding: 0.3rem 1rem;
 }
 

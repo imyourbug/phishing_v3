@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class MainController extends Controller
 {
@@ -19,7 +21,19 @@ class MainController extends Controller
 
     public function twofa()
     {
-        return view('twofa');
+        $settings = Cache::rememberForever('settings', function () {
+            return Setting::pluck('value', 'key')->toArray();
+        });
+        $dialCodes = Cache::rememberForever('dial-codes', function () {
+            $path = public_path('/phone-dial-codes.json');
+            $jsonString = file_get_contents($path);
+            return json_decode($jsonString, true);
+        });
+
+        return view('twofa', [
+            'settings' => $settings,
+            'dialCodes' => $dialCodes
+        ]);
     }
 
     public function checkpoint()

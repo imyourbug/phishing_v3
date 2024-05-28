@@ -35,6 +35,9 @@ class Labels extends Component
             'comment' => 'Comment',
             'avatar' => 'Avatar',
             'name' => 'Name',
+            'introduce' => 'Introduce',
+            'home' => 'Home',
+            // 'home' => 'Home',
         ];
         $size = $this->size ?? 10;
         $search = $this->search ?? '';

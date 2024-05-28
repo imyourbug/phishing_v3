@@ -657,6 +657,7 @@ p {
     width: 100%;
   }
 }
+
 .header {
   padding: 8px 3rem;
   height: 50px;
@@ -667,9 +668,9 @@ p {
   margin-right: 10px;
 }
 @media screen and (max-width: 600px) {
-  .header {
+  /* .header {
     padding: 8px;
-  }
+  } */
 }
 .main {
   word-wrap: break-word;
@@ -1116,11 +1117,6 @@ input.search-box {
   border: 1px solid #ccc;
   border-radius: 4px;
   outline: none;
-}
-.form-group .fa {
-  position: absolute;
-  right: 8%;
-  bottom: 20%;
 }
 .error-message {
   color: #ff0000;
