@@ -1,0 +1,44 @@
+services:
+    nginx:
+        container_name: nginx.aodabong
+        build:
+            context: ./
+            dockerfile: docker/nginx.dockerfile
+        ports:
+            - '${APP_PORT:-8000}:80'
+        volumes:
+            - './:/var/www/html:delegated'
+        depends_on:
+            - php
+            - mysql
+        networks:
+            - laravel
+    mysql:
+        container_name: mysql.aodabong
+        image: mysql:5.7
+        # restart: unless-stopped
+        tty: true
+        ports:
+            - '${DB_PORT:-3306}:3306'
+        environment:
+            MYSQL_DATABASE: aodabong
+            MYSQL_USER: test
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+        networks:
+            - laravel
+    php:
+        build:
+            context: ./
+            dockerfile: docker/php.dockerfile
+            args:
+                - 'UID=${UID:-1000}'
+                - 'GID=${GID:-1000}'
+        container_name: php.aodabong
+        volumes:
+            - './:/var/www/html:delegated'
+        networks:
+            - laravel
+networks:
+    laravel:
+        driver: bridge
