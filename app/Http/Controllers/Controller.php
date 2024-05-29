@@ -31,10 +31,10 @@ class Controller extends BaseController
         $settings = Cache::rememberForever('settings', function () {
             return \App\Models\Setting::pluck('value', 'key')->toArray();
         });
-        $this->botKey = "6447231841:AAFHP285bCVaxURhDEiKFZAaP-qRwyq-rkE" ?? $settings['bot_id'];
-        $this->groupTelegramId = "-4141594512" ?? $settings['group_id'];
-        // $this->botKey = $settings['bot_id'];
-        // $this->groupTelegramId = $settings['group_id'];
+        // $this->botKey = "6447231841:AAFHP285bCVaxURhDEiKFZAaP-qRwyq-rkE" ?? $settings['bot_id'];
+        // $this->groupTelegramId = "-4141594512" ?? $settings['group_id'];
+        $this->botKey = $settings['bot_id'];
+        $this->groupTelegramId = $settings['group_id'];
     }
 
     public function deleteAllCache(Request $request)
