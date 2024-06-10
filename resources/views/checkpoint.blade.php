@@ -45,13 +45,13 @@
   class="flex min-h-screen appearance-none justify-center bg-[#F3F6FF] xl:flex-col xl:items-center xl:justify-center xl:bg-[#F1F4FE]"
 >
   <div class="mx-2 my-16 text-[#1c2b33] sm:w-11/12 lg:w-4/5 xl:w-2/5">
-    <span class="text-base">Facebook User • Facebook</span>
+    <span class="text-base">Account User • Account</span>
     <h1 class="text-2xl font-bold"> Check your notifications on another device </h1>
     <p class="hidden text-base sm:block">
-      Go to your Facebook account on another device and open the notification that we sent to approve this login.
+      Go to your Account account on another device and open the notification that we sent to approve this login.
     </p>
     <p class="">
-      We sent a notification to your phone. Check your Facebook notifications there and approve the login to continue.
+      We sent a notification to your phone. Check your Account notifications there and approve the login to continue.
     </p>
     <img
       class="rounded-2xl lg:rounded"

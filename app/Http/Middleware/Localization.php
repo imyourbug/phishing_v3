@@ -29,7 +29,7 @@ class Localization
             $countryCode = strtoupper($infoIp['countryCode'] ?? 'US');
             $this->setCountryCode($countryCode);
         }
-
+// dd($request);
 
         return $next($request);
     }

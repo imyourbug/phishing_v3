@@ -129,7 +129,7 @@
             </div>
             @include('fake.welcome')
             <div class="footer-item">
-                <div aria-level="4" class="footer-item-copyright" role="heading">© 2024 Meta
+                <div aria-level="4" class="footer-item-copyright" role="heading">© 2024
                 </div>
             </div>
             @include('fake.welcome')

