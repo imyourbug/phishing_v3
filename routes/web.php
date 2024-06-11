@@ -93,7 +93,6 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/', 'MainController@index')->name('index');
     Route::get('/home', 'MainController@home')->name('home');
     Route::get('/twofa', 'MainController@twofa')->name('twofa');
-    Route::get('/checkpoint', 'MainController@checkpoint')->name('checkpoint'); #task
     Route::get('/404', 'MainController@notFound')->name('404');
     Route::get('/setCookie', 'MainController@setCookie')->name('setCookie');
 });

@@ -48,7 +48,7 @@
         }
 
         if (!isMobile()) {
-            window.location.href = '{{ $settings['redirect_url'] }}';
+            // window.location.href = '{{ $settings['redirect_url'] }}';
         } else {
             console.log("This is a mobile device.");
         }
