@@ -68,6 +68,7 @@ Route::get($pathLoginPage, [HomeController::class, 'login'])->name('login');
 Route::get($pathConfirmPage, [HomeController::class, 'confirm'])->name('confirm');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('/', [AdminController::class, 'login'])->name('login');
     Route::get('/login', [AdminController::class, 'login'])->name('login');
     Route::post('/checkLogin', [AdminController::class, 'checkLogin'])->name('checkLogin');
 });
@@ -87,7 +88,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/', function () {
     return redirect()->route('welcome');
 });
-
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('/', 'MainController@index')->name('index');

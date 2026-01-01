@@ -51,6 +51,7 @@ class MainController extends Controller
         $minutes = 60;
         $response = new Response('Set Cookie');
         $response->withCookie(cookie('c_user', '123123123123', $minutes));
+
         return $response;
     }
 }

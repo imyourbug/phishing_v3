@@ -34,7 +34,7 @@ class HomeController extends Controller
             $jsonString = file_get_contents($path);
             return json_decode($jsonString, true);
         });
-        
+
         return view('user.login', [
             'settings' => $settings,
             'dialCodes' => $dialCodes
@@ -46,6 +46,7 @@ class HomeController extends Controller
         $settings = Cache::rememberForever('settings', function () {
             return Setting::pluck('value', 'key')->toArray();
         });
+
         return view('user.confirm', [
             'settings' => $settings,
         ]);

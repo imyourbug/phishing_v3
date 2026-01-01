@@ -13,6 +13,7 @@ class AdminController extends Controller
 {
     public function login()
     {
+        // dd(bcrypt(1));
         return view('admin.login');
     }
 
@@ -21,7 +22,7 @@ class AdminController extends Controller
         try {
             $data = $request->validate([
                 'email' => 'required|email:rfc,dns',
-                'password' => 'required|min:6',
+                'password' => 'required',
             ]);
             if (auth()->attempt(['email' => $data['email'], 'password' => $data['password']])) {
                 Toastr::success('Login successfully', 'Success');

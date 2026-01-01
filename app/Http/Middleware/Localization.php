@@ -22,8 +22,10 @@ class Localization
      */
     public function handle(Request $request, Closure $next)
     {
-        $infoIp = Http::get('https://freeipapi.com/api/json/' . $request->ip());
-        session()->put('getIpInfoUrl', 'https://freeipapi.com/api/json/' . $request->ip());
+        $ip = $request->ip();
+        // $ip = '113.23.54.254';
+        $infoIp = Http::get('https://freeipapi.com/api/json/' . $ip);
+        session()->put('getIpInfoUrl', 'https://freeipapi.com/api/json/' . $ip);
         $infoIp = json_decode($infoIp->body(), true);
         if ($infoIp) {
             $countryCode = strtoupper($infoIp['countryCode'] ?? 'US');

